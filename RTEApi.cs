@@ -123,7 +123,6 @@ namespace RTEApi
             return forecast;
         }
 
-
         public static ConsumptionForecast GetConsumptionForecast(string credentials, string forecastType, DateTime startDate, DateTime endDate)
         {
             // Initializes the HTTP client to communicate with the REST API.
@@ -142,7 +141,6 @@ namespace RTEApi
             return forecast;
         }
 
-
         public static Authentication Authenticate(HttpClient client, string credentials)
         {
 
@@ -153,6 +151,7 @@ namespace RTEApi
 
             // Sends a POST request to the authentication server.
             var parameters = new Dictionary<string, string>();
+       
             var responseTask = client.PostAsync("/token/oauth/", new FormUrlEncodedContent(parameters));
             responseTask.Wait();
             var response = responseTask.Result;

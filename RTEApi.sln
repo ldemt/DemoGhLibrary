@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RTEApi", "RTEApi.csproj", "{78F5BFB2-E111-4845-83EB-725B20D3A477}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTEApiTestConsoleApp", "..\RTEApiTestConsoleApp\RTEApiTestConsoleApp.csproj", "{EA562C4C-5119-44FD-BEC4-2E72711850B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppWebAPI", "..\ConsoleAppWebAPI\ConsoleAppWebAPI.csproj", "{725B1159-875D-41F2-A0DD-4AB53F9D8C0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{78F5BFB2-E111-4845-83EB-725B20D3A477}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78F5BFB2-E111-4845-83EB-725B20D3A477}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78F5BFB2-E111-4845-83EB-725B20D3A477}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA562C4C-5119-44FD-BEC4-2E72711850B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA562C4C-5119-44FD-BEC4-2E72711850B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA562C4C-5119-44FD-BEC4-2E72711850B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA562C4C-5119-44FD-BEC4-2E72711850B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{725B1159-875D-41F2-A0DD-4AB53F9D8C0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{725B1159-875D-41F2-A0DD-4AB53F9D8C0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{725B1159-875D-41F2-A0DD-4AB53F9D8C0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{725B1159-875D-41F2-A0DD-4AB53F9D8C0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
