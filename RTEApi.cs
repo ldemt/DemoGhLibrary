@@ -127,11 +127,17 @@ namespace RTEApi
         public static ConsumptionForecast GetConsumptionForecast(string credentials, string forecastType, DateTime startDate, DateTime endDate)
         {
             // Initializes the HTTP client to communicate with the REST API.
-         
+            var client = new HttpClient();
 
             // Authenticates and retrieves the access token to be used in next step.
+            Console.WriteLine("Authenticating...");
+            var authentication = Authenticate(client, credentials);
+            Console.WriteLine("Authentication access token : " + authentication.AccessToken);
 
             // Retrieves data from the REST API using the access token.
+            Console.WriteLine("Getting forecasts from REST API...");
+            ConsumptionForecast forecast = GetShortTermConsumptionForecast(client, authentication, forecastType, startDate, endDate);
+            Console.WriteLine(forecast.ToString());
 
             return forecast;
         }
@@ -141,14 +147,26 @@ namespace RTEApi
         {
 
             // Configures the HTTP headers and address.
+            client.DefaultRequestHeaders.Add("Host", "digital.iservices.rte-france.com");
+            client.DefaultRequestHeaders.Add("Authorization", "Basic " + credentials);
+            client.BaseAddress = new Uri("https://digital.iservices.rte-france.com");
 
             // Sends a POST request to the authentication server.
-                   // Reads the server response content.
-  
+            var parameters = new Dictionary<string, string>();
+            var responseTask = client.PostAsync("/token/oauth/", new FormUrlEncodedContent(parameters));
+            responseTask.Wait();
+            var response = responseTask.Result;
+            // Reads the server response content.
+            var contentsTask = response.Content.ReadAsStringAsync();
+            contentsTask.Wait();
+            var contents = contentsTask.Result;
+
             // Deserialize the received authentication data (here it is just an access token) inside an Authentication class object.
             //Authentication authentication = System.Text.Json.JsonSerializer.Deserialize<Authentication>(contents);
-                  // Clears the HTTP headers (for cleanliness, because we'll use the same client object afterwards w/ other headers)
-   
+            Authentication authentication = JsonConvert.DeserializeObject<Authentication>(contents);
+            // Clears the HTTP headers (for cleanliness, because we'll use the same client object afterwards w/ other headers)
+            client.DefaultRequestHeaders.Clear();
+
             // Returns the authentication object we've just serialized.
             return authentication;
         }
@@ -156,14 +174,26 @@ namespace RTEApi
         public static ConsumptionForecast GetShortTermConsumptionForecast(HttpClient client, Authentication authentication, string forecastType, DateTime startDate, DateTime endDate)
         {
             // Configures the HTTP headers and address.
+            client.DefaultRequestHeaders.Add("Host", "digital.iservices.rte-france.com");
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authentication.AccessToken);
 
             // Format the input dateTime object as strings suitably formatted for the HTTP request (so-called "sortable formatting").
+            string endDateString = endDate.ToString("s") + endDate.ToString("zzz");
+            string startDateString = startDate.ToString("s") + startDate.ToString("zzz");
+
+            string path = "/open_api/consumption/v1/short_term" + "?type=" + forecastType + "&start_date=" + startDateString + "&end_date=" + endDateString;
 
             // Sends a GET request to the data server.
-           
+            var streamTask = client.GetAsync(path);
+            streamTask.Wait();
+            var streamResult = streamTask.Result;
             // Reads the server response content.
+            var contentTask = streamResult.Content.ReadAsStringAsync();
+            var content = contentTask.Result;
 
             // Deserialize the received data as a ConsumptionForecast class object.
+            ConsumptionForecast consumptionForecast = JsonConvert.DeserializeObject<ConsumptionForecast>(content);
+            //var consumptionForecast = System.Text.Json.JsonSerializer.Deserialize<ConsumptionForecast>(content);
 
             return consumptionForecast;
         }
